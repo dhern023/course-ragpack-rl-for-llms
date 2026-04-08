@@ -3,6 +3,7 @@ Pytorchified version of https://github.com/StatQuest/RLHF
 
 NOTE: num_tokens was changed to num_embeddings, as it's actually the vocabulary size
     similarly, dim_model should have been renamed to embedding size, but it's fine.
+NOTE: original code assumed batch_size of 1, and we don't so for inference we use [1, sequence]
 """
 
 import torch.nn
@@ -164,7 +165,7 @@ class RewardModel(lightning.LightningModule):
             input is of the form "prompt <EOS> good answer <EOS> bad answer <EOS>"
             input is already masked
         """
-        hidden_states = self.body(input_ids) # [batch_size sequence, d_model]
+        hidden_states = self.body(input_ids) # [batch_size, sequence, d_model]
 
         # slice the <EOS> position to get the summary vector for the entire sentence
         last_token_hidden = hidden_states[:, -1, :] # [batch_size, d_model]
@@ -187,8 +188,8 @@ class RewardModel(lightning.LightningModule):
 
         output_better, output_worse = labels.chunk(2, dim=1)
 
-        input_better = torch.cat((input_tokens, output_better), dim=1) # [batch_size, prompt_length + label_length]
-        input_worse = torch.cat((input_tokens, output_worse), dim=1) # [batch_size, prompt_length + label_length]
+        input_better = torch.cat((input_tokens, output_better), dim=1) # [batch_size, prompt_length + label_length], [batch_size, sequence]
+        input_worse = torch.cat((input_tokens, output_worse), dim=1) # [batch_size, prompt_length + label_length], [batch_size, sequence]
 
         reward_better = self.forward(input_better) # [batch_size], chosen rewards
         reward_worse = self.forward(input_worse) # [batch_size], rejected rewards
@@ -322,13 +323,13 @@ generate_output(model, torch.tensor(tokens2ids("statquest is what <EOS>")))
 
 # Reward model "borrows" the SAME engine to train scalar scores
 # It automatically starts with the SFT knowledge, no need to copy weights
-reward_model = RewardModel(instance_body=shared_engine)
+model_reward = RewardModel(instance_body=shared_engine)
 
 ## This is an example of a "better" response
 ## direct inference requires a 2D tensor
-scores = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
+scores = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
 scores[-1] # use the last score as the output from the reward model
-scores = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
+scores = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
 scores[-1]
 
 rl_inputs = torch.tensor([tokens2ids("squatch eats what <EOS>"),
@@ -364,12 +365,12 @@ rl_dataloader = torch.utils.data.DataLoader(rl_dataset)
 
 ## now train the model
 trainer = lightning.Trainer(max_epochs=50, log_every_n_steps=2, deterministic=True)
-trainer.fit(reward_model, train_dataloaders=rl_dataloader)
+trainer.fit(model_reward, train_dataloaders=rl_dataloader)
 
 # Now let's see if the **Reward** model now gives the "better" response a higher score than the "worse" response.
-reward_better = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
+reward_better = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
 reward_better[-1]
-reward_worse = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
+reward_worse = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
 reward_worse[-1]
 
 # **NOTE:** We can also calculate the **Loss** by hand to see if these scores result in a **Loss** value that is close to 0...
@@ -381,9 +382,14 @@ reward_worse[-1]
 # Now let's see how the **Reward Model** scores prompt/response pairs (with "better" and "worse" responses) for something it has never seen before...
 ## Now let's score an input/output pair that the Reward Model has never seen before...
 ## This is an example of a "better" response:
-reward_better = reward_model(torch.tensor(tokens2ids("norm eats what <EOS> pizza <EOS>")).view(1,-1))
+reward_better = model_reward(torch.tensor(tokens2ids("norm eats what <EOS> pizza <EOS>")).view(1,-1))
 reward_better[-1]
 ## Now score another input/output pair that the Reward Model has never seen before...
 ## This is an example of a "worse" response:
-reward_worse = reward_model(torch.tensor(tokens2ids("norm eats what <EOS> awesome <EOS>")).view(1,-1))
+reward_worse = model_reward(torch.tensor(tokens2ids("norm eats what <EOS> awesome <EOS>")).view(1,-1))
 reward_worse[-1]
+
+# # Train the original model with RLHF
+# First, let's see what the original model generates when given a prompt it was not trained on.
+generate_output(model, torch.tensor(tokens2ids("norm eats what <EOS>")))
+trainer.fit(model_reward, preference_data)
