@@ -164,12 +164,13 @@ class RewardModel(lightning.LightningModule):
             input is of the form "prompt <EOS> good answer <EOS> bad answer <EOS>"
             input is already masked
         """
-        hidden_states = self.body(input_ids) # [batch, sequence, d_model]
+        hidden_states = self.body(input_ids) # [batch_size sequence, d_model]
 
         # slice the <EOS> position to get the summary vector for the entire sentence
-        last_token_hidden = hidden_states[:, -1, :] # [batch, d_model]
+        last_token_hidden = hidden_states[:, -1, :] # [batch_size, d_model]
+        logits = self.reward_head(last_token_hidden) # [batch_size, 1]
 
-        return self.reward_head(last_token_hidden) # [batch, 1]
+        return torch.einsum('br -> b', logits) # [batch_size]
 
     def configure_optimizers(self):
         """
@@ -178,16 +179,26 @@ class RewardModel(lightning.LightningModule):
         """
         return torch.optim.Adam(self.parameters(), lr=0.1)
 
-    def training_step(self, chosen_ids, rejected_ids, chosen_mask=None, rejected_mask=None):
+    def training_step(self, batch, batch_idx):
         """
         NOTE: The original code used only a single sentence per batch, so they didn't need to use mean()
         """
-        # Get scalar rewards for both completions
-        chosen_rewards = self.forward(chosen_ids, chosen_mask)
-        rejected_rewards = self.forward(rejected_ids, rejected_mask)
+        input_tokens, labels = batch # collect [batch_size, prompt_length], [batch_size, combined_label_len]
+
+        output_better, output_worse = labels.chunk(2, dim=1)
+
+        input_better = torch.cat((input_tokens, output_better), dim=1) # [batch_size, prompt_length + label_length]
+        input_worse = torch.cat((input_tokens, output_worse), dim=1) # [batch_size, prompt_length + label_length]
+
+        reward_better = self.forward(input_better) # [batch_size], chosen rewards
+        reward_worse = self.forward(input_worse) # [batch_size], rejected rewards
 
         # Pairwise Ranking Loss
-        loss = -F.logsigmoid(chosen_rewards - rejected_rewards).mean()
+        ## For details, see: https://youtu.be/qPN_XZcJf_s
+        ## NOTE: reward_better and reward_worse are arrays with
+        ##       scores for each token. We only want the score for the
+        ##       last token
+        loss = -F.logsigmoid(reward_better - reward_worse).mean()
 
         self.log("train_loss", loss)
 
@@ -279,7 +290,7 @@ def generate_output(model, prompt):
     eos_token_id = token_to_id["<EOS>"]
     # If user passed (Time,), fixes it to (batch_size=1, Time)
     if prompt.dim() == 1:
-        prompt = prompt[None, :] 
+        prompt = prompt[None, :] # [1, sequence_length]
 
     input_length = prompt.size(dim=1) # size_context
 
@@ -292,8 +303,6 @@ def generate_output(model, prompt):
 
         if (predicted_id == eos_token_id).all(): # if the prediction is <EOS>, then we are done
             break
-
-
 
     output = prompt[:, input_length:] # get predicted part (batch_size = 1, t)
     predicted_ids = output.squeeze().tolist() # shape (t,)
@@ -311,3 +320,70 @@ trainer.fit(model, train_dataloaders=pretrain_dataloader) # shared_engine contai
 generate_output(model, torch.tensor(tokens2ids("what is statquest <EOS>")))
 generate_output(model, torch.tensor(tokens2ids("statquest is what <EOS>")))
 
+# Reward model "borrows" the SAME engine to train scalar scores
+# It automatically starts with the SFT knowledge, no need to copy weights
+reward_model = RewardModel(instance_body=shared_engine)
+
+## This is an example of a "better" response
+## direct inference requires a 2D tensor
+scores = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
+scores[-1] # use the last score as the output from the reward model
+scores = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
+scores[-1]
+
+rl_inputs = torch.tensor([tokens2ids("squatch eats what <EOS>"),
+                          tokens2ids("squatch eats what <EOS>"),
+                          tokens2ids("squatch eats what <EOS>"),
+                          tokens2ids("squatch eats what <EOS>"),
+                          tokens2ids("squatch eats what <EOS>"),
+                          tokens2ids("squatch eats what <EOS>"),
+                          tokens2ids("squatch eats what <EOS>")])
+
+
+# Now let's create the reponses. We'll do this by concatonated a "better" response with a "worse" response. The "better" response comes first. Later, when we're in the `training_step()` we'll split these two responses apart.
+
+
+rl_labels = torch.tensor([tokens2ids("pizza <EOS> what <EOS>"),
+                          tokens2ids("pizza <EOS> is <EOS>"),
+                          tokens2ids("pizza <EOS> statquest <EOS>"),
+                          tokens2ids("pizza <EOS> squatch <EOS>"),
+                          tokens2ids("pizza <EOS> eats <EOS>"),
+                          tokens2ids("pizza <EOS> norm <EOS>"),
+                          tokens2ids("pizza <EOS> awesome <EOS>")])
+
+
+# Lastly, let's put the new dataset in a `DataLoader`.
+
+
+## Now let's package everything up into a DataLoader...
+rl_dataset = torch.utils.data.TensorDataset(rl_inputs, rl_labels)
+rl_dataloader = torch.utils.data.DataLoader(rl_dataset)
+
+
+# Now that we have the data in a `DataLoader`, we can use it to train the **Reward Model**.
+
+## now train the model
+trainer = lightning.Trainer(max_epochs=50, log_every_n_steps=2, deterministic=True)
+trainer.fit(reward_model, train_dataloaders=rl_dataloader)
+
+# Now let's see if the **Reward** model now gives the "better" response a higher score than the "worse" response.
+reward_better = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
+reward_better[-1]
+reward_worse = reward_model(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
+reward_worse[-1]
+
+# **NOTE:** We can also calculate the **Loss** by hand to see if these scores result in a **Loss** value that is close to 0...
+
+## See what the loss is...
+-F.logsigmoid(reward_better[-1] - reward_worse[-1])
+# ...and we see that the **Loss** is super close to 0. In other words, the scores generated for the "better" and "worse" responses minimize the **Loss**.
+
+# Now let's see how the **Reward Model** scores prompt/response pairs (with "better" and "worse" responses) for something it has never seen before...
+## Now let's score an input/output pair that the Reward Model has never seen before...
+## This is an example of a "better" response:
+reward_better = reward_model(torch.tensor(tokens2ids("norm eats what <EOS> pizza <EOS>")).view(1,-1))
+reward_better[-1]
+## Now score another input/output pair that the Reward Model has never seen before...
+## This is an example of a "worse" response:
+reward_worse = reward_model(torch.tensor(tokens2ids("norm eats what <EOS> awesome <EOS>")).view(1,-1))
+reward_worse[-1]
