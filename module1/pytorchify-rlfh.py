@@ -4,15 +4,14 @@ Pytorchified version of https://github.com/StatQuest/RLHF
 NOTE: num_tokens was changed to num_embeddings, as it's actually the vocabulary size
     similarly, dim_model should have been renamed to embedding size, but it's fine.
 NOTE: original code assumed batch_size of 1, and we don't so for inference we use [1, sequence]
-"""
 
+"""
 import torch.nn
 import lightning
 
 import torch
 import torch.nn
 import torch.nn.functional as F
-
 
 class PositionalEncoding(torch.nn.Module):
     """
@@ -152,7 +151,7 @@ class RewardModel(lightning.LightningModule):
     """
     Same as Language Model, but scalar head and uses pairwise-ranking loss
 
-    loss = mean(-log*sigmoid(r_better - r_worse))
+    loss = mean(-log(sigmoid(r_better - r_worse)))
     """
     def __init__(self, instance_body):
         super().__init__()
@@ -168,10 +167,10 @@ class RewardModel(lightning.LightningModule):
         hidden_states = self.body(input_ids) # [batch_size, sequence, d_model]
 
         # slice the <EOS> position to get the summary vector for the entire sentence
-        last_token_hidden = hidden_states[:, -1, :] # [batch_size, d_model]
-        logits = self.reward_head(last_token_hidden) # [batch_size, 1]
+        logits = self.reward_head(hidden_states) # [batch_size, sequence, 1]
 
-        return torch.einsum('br -> b', logits) # [batch_size]
+        return logits[:, -1, 0] # [batch_size] with grad_fn = SelectBackward0
+        # return torch.einsum('bsr -> b', logits) # [batch_size]
 
     def configure_optimizers(self):
         """
