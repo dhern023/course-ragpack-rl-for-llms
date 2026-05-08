@@ -2,7 +2,7 @@
 Pytorchified version of https://github.com/StatQuest/RLHF
 
 NOTE: num_tokens was changed to num_embeddings, as it's actually the vocabulary size
-    similarly, dim_model should have been renamed to embedding size, but it's fine.
+    similarly, d_model should have been renamed to embedding size, but it's fine.
 NOTE: original code assumed batch_size of 1, and we don't so for inference we use [1, sequence]
 
 """
@@ -58,20 +58,20 @@ class TransformerBody(torch.nn.Module):
     Embedding -> Transformer Blocks (self-attention + FFN) -> Hidden states
     NOTE: num_tokens was renamed to num_embeddings = VOCAB_SIZE to better reflect the terminology
     """
-    def __init__(self, num_embeddings, dim_model, max_sequence_length, n_layers, n_heads):
+    def __init__(self, num_embeddings, d_model, max_sequence_length, n_layers, n_heads):
         """
         vocab_size = num_embeddings
         context_window = max_sequence_length
         """
         super().__init__()
-        self.embedding_tokens = torch.nn.Embedding(num_embeddings, dim_model)
-        self.positional_encoder = PositionalEncoding(dim_model, max_sequence_length) # <--- The "Dials"
+        self.embedding_tokens = torch.nn.Embedding(num_embeddings, d_model)
+        self.positional_encoder = PositionalEncoding(d_model, max_sequence_length) # <--- The "Dials"
         # Simplified: Replace with your actual TransformerBlock implementation
         self.blocks = torch.nn.ModuleList([
             torch.nn.TransformerEncoderLayer(
-                d_model=dim_model, 
+                d_model=d_model, 
                 nhead=n_heads, 
-                dim_feedforward=dim_model, 
+                dim_feedforward=d_model, 
                 dropout=0.0, 
                 batch_first=True, 
                 norm_first=True
@@ -95,7 +95,7 @@ class TransformerBody(torch.nn.Module):
 
         for block in self.blocks:
             x = block(x, src_mask=mask, is_causal=True)
-        return x # Returns [batch, seq_len, dim_model]
+        return x # Returns [batch, seq_len, d_model]
 
 class LanguageModel(lightning.LightningModule):
     """
@@ -271,7 +271,7 @@ pretrain_labels = torch.tensor([tokens2ids(sentence) for sentence in list_output
 pretrain_dataset = torch.utils.data.TensorDataset(pretrain_inputs, pretrain_labels)
 pretrain_dataloader = torch.utils.data.DataLoader(pretrain_dataset)
 
-shared_engine = TransformerBody(num_embeddings=len(tokens), dim_model=d_model, max_sequence_length=max_length, n_layers=4, n_heads=1)
+shared_engine = TransformerBody(num_embeddings=len(tokens), d_model=d_model, max_sequence_length=max_length, n_layers=4, n_heads=1)
 model = LanguageModel(instance_body=shared_engine, num_embeddings=len(tokens))
 
 ## Because tutorial involves creating a bunch of models
