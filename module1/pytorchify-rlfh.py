@@ -326,10 +326,10 @@ model_reward = RewardModel(instance_body=shared_engine)
 
 ## This is an example of a "better" response
 ## direct inference requires a 2D tensor
-scores = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
-scores[-1] # use the last score as the output from the reward model
-scores = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
-scores[-1]
+scores_better = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> pizza <EOS>")).view(1,-1))
+scores_better[-1] # use the last score as the output from the reward model
+scores_worse = model_reward(torch.tensor(tokens2ids("squatch eats what <EOS> awesome <EOS>")).view(1,-1))
+scores_worse[-1]
 
 rl_inputs = torch.tensor([tokens2ids("squatch eats what <EOS>"),
                           tokens2ids("squatch eats what <EOS>"),
@@ -375,7 +375,7 @@ reward_worse[-1]
 # **NOTE:** We can also calculate the **Loss** by hand to see if these scores result in a **Loss** value that is close to 0...
 
 ## See what the loss is...
--F.logsigmoid(reward_better[-1] - reward_worse[-1])
+print("Trained reward loss", -F.logsigmoid(reward_better[-1] - reward_worse[-1]))
 # ...and we see that the **Loss** is super close to 0. In other words, the scores generated for the "better" and "worse" responses minimize the **Loss**.
 
 # Now let's see how the **Reward Model** scores prompt/response pairs (with "better" and "worse" responses) for something it has never seen before...
