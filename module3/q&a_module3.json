@@ -1,0 +1,322 @@
+{
+    "Sounds like SGD": [],
+    "How do we choose these two candidate models?": [],
+    "to calculate drift": [],
+    "I would appreciate it if you could share the slides": [],
+    "if you do more, you could give to us a special treat, no? ;)": [],
+    "pro tip: you can now install GoogleColab on VSCode  - as a plug in - and work on your own IDE": [],
+    "No ground truth data": [],
+    "Hello everyone! Welcome to live session #3": [],
+    "Thank you for the off-road adventure!": [],
+    "The advantage is gotten through a different method - grpo is self critical": [],
+    "Like entropy?": [],
+    "How to evaluate base model, if its good enough ?": [
+        "we assumed it is already somewhat good I guess. since we have done SFT"
+    ],
+    "And what about the AI Agent courses???": [],
+    "Is this possible, if a model can use this to harvest more points by adding more steps? Like reward hacking.": [
+        "Ah yes, Thank you!",
+        "Thanks Luis and Jay!  I will check out the blogpost!"
+    ],
+    "how is it making continuous?": [],
+    "maximize the prob for correct ones": [],
+    "If I need to train a model which does not provide the final answer to a question but rather it just guides me through the correct step. How to use RL for this?": [
+        "Look at https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-reasoning-llms<EOS>Search the page for \u201cProcess Reward Models (PRM)\u201d"
+    ],
+    "Thank you a lot!": [],
+    "How many models we need for this step? Is this more easy than PPO with 3 models?": [
+        "+1",
+        "You need the policy model that we\u2019re training, and a reference model, which is an earlier checkpoint of the policy. And optionally reward models if we want to use them."
+    ],
+    "Probability is the chance the candidate likes the response?": [],
+    "logits then softmax": [],
+    "dont need samples": [],
+    "Strong base model + good SFT + good RL": [],
+    "Thanks guys": [],
+    "yes! please! challenge!": [],
+    "Can we apply GRPO to improve accuracy of fields extraction from a form?": [
+        "what is your reward?",
+        "Could user feedback be used as a reward?"
+    ],
+    "trying many times": [],
+    "So we want the final probability distribution to be similar to the base models probability distribution": [],
+    "yes, I was thinking how to score a question as hard and easy ...": [
+        "Doesn\u2019t matter post normalisation"
+    ],
+    "Me too\ud83e\udd29": [],
+    "it can keep dangling in wrong area": [],
+    "normalize": [],
+    "Great lecture!": [],
+    "the aggregations serve as the value because it's \"self-criticizing\" in the round-robin": [],
+    "is each \"candidate\" a version with different weights than current model?": [
+        "All different responses to a prompt, generated using some randomness"
+    ],
+    "What assumptions are we making on the scope of questions? Like for math, what would the base model data be if the critic is arithmetic?": [],
+    "How do we score on a code?": [
+        "if it compiles",
+        "Yea, the point is it\u2019s binary",
+        "Most commonly unit tests that run and verify the code does what the prompt requests"
+    ],
+    "VLM": [],
+    "Do you also cover one example of end to end implementation of LLM preference tuning with RL with some hands on project?": [],
+    "Doubled": [],
+    "Yes Jay = Keynote Pro! \ud83d\udc4f": [],
+    "Link to Jay\u2019s Keynote<EOS>https://www.youtube.com/watch?v=gSPRxJLxIHA": [],
+    "What would be the appropriate strategy for selecting an LLM to act as a judge?": [
+        "The examples I've seen simply use an API to work with a frontier model. As powerful as it gets, and relatively inexpensive?"
+    ],
+    "What is old probability here - probability from a reference model?": [],
+    "What hyperparameter means?": [
+        "something you have the choice to tweak",
+        "It is not a parameter that will be learned by the model.",
+        "Is temperature hyperparameter?",
+        "Yeah, it's"
+    ],
+    "Will you be introducing us with challenge": [],
+    "Scaling is a big issue for RL. Are you going to cover that in this course ?": [],
+    "If we use an LLM-as-a-judge, will Anthropic call it out as it did with Deepseek? ;)": [],
+    "Dora exploration": [],
+    "What cases would you consider building independent models for easy vs hard problems and call the model based on the problem or ensembling?": [
+        "In RL for LLMs, it\u2019s actually common to rate problems by difficulty and show the model easier problems in early steps, and do harder problems in later training steps.",
+        "Checkout Nvidia\u2019s Nemotron Cascade:<EOS>https://research.nvidia.com/labs/nemotron/nemotron-cascade/"
+    ],
+    "BAM": [],
+    "What are the issues for scaling GRPO ? Like if you have to generate many trajectories for every step \u2014 how does one handle that while running large scale RL jobs ?": [],
+    "Wouldn't that cause the critic to score a semi-correct answer as good as a really good answer?": [],
+    "So, the next iteration is the critic in this case?": [],
+    "so it just chose the good parts of each model": [],
+    "log scale?": [],
+    "or I could generate very big value": [],
+    "To Chris's clarification point, we have not essentially yet taken a step and created a separate model, right? It is a conceptual point of possible gradient step?": [],
+    "so if the base model is not good enough, we are screwed": [],
+    "Objective is talking": [],
+    "I am getting a bit lost, how do you create the \"new models\" to test out? Is like the next step?": [
+        "The multiple new models are theoretical. They're all possible future models. We only have one model in reality, and update it to one of those new theoretical candidates.",
+        "Haha Chris cleared the main doubt of mine, I was scratching my head how to get these candidate models"
+    ],
+    "hey!!": [],
+    "Inference optimization is very much on demand": [],
+    "Loved it, thank you!": [],
+    "Look at https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-reasoning-llms<EOS>Search the page for \u201cProcess Reward Models (PRM)\u201d": [],
+    "where do the probabilities come from?": [
+        "In a way, an LLM is only a probability scorer. It looks at a sequence of input tokens, and it assigns a probability score for each token in its vocabulary. This scores how probable each token can be as the next token in that input sequence (input prompt)"
+    ],
+    "the value is unpredictable": [],
+    "Because it is too computationally expensive to evaluate multiple answers at the same time.": [],
+    "so it makes it smoother by multiplying the probability with the score": [],
+    "Because the label truth is not available": [],
+    "and it is not associative": [],
+    "in each class I get more mindblown than the previous one": [],
+    "because we don't have the data": [],
+    "it might happen a lot that there are responses too far away for have given it a clip": [],
+    "Odds": [],
+    "You mentioned a lot that it's about two different models. Do you mean two different models such as Llama and Qwen, or different by the weights at the beginning?": [
+        "Two different small updates to the current model.<EOS>Weight update A leads to model A<EOS>or<EOS>weight update B leading to model B"
+    ],
+    "In the RL Training Process \u2014 do you freeze some of the layers and only fine tune only some of the layers with the  gradients ?": [],
+    "We have always assumed that the critic is good enough to rate, but how to build such critic models?": [],
+    "Hello everyone..": [],
+    "how did we get rid of luck?": [],
+    "so each step is a list of tokens and then the whole answer is list of list of tokens? but what happens if any question does not have many steps but 1?": [
+        "The final thing that we actually train on is a batch of sequences. Each sequence is a prompt concatenated with its response. (sequence = list of tokens)",
+        "batch of sequences => is this referring to answering one query? or do you mean multiple queries? @Chris McCormick",
+        "I am confused that we can batch of queries, and each query can have a many possible sequences which are correct"
+    ],
+    "Could what clip is doing, to \u201caccumulate\u201d all clipped values to min and max, a problem?": [],
+    "I can have a test set with known fields value. But than it will become a supervised learning @Chris McCormick. Or have another model that will also extract Field value": [],
+    "The high score might be sandwiched between two bad ones?": [],
+    "so the probabilities the candidates assign could be low, but their output probabilities could scale wrt the scores in the base model.": [],
+    "Candidate 2 normalized scores should be reverse?": [],
+    "reference is copy of policy that is frozen": [],
+    "We use Policy two serve 2 different things. Generate multiple trajectories": [],
+    "Exactly. Every time we update the model\u2019s weights, that\u2019s a different \u201cmodel\u201d or \u201ccheckpoint\u201d": [],
+    "it depends on how much you want to explore and exploit, no?": [],
+    "GRPO is relative ranking": [],
+    "IID(independent and identically distributed) training data": [],
+    "why do we need to keep the same or similar distribution?": [
+        "Because if we don\u2019t, the model could be reward hacking \u2014 doing really good in math or code but its output is incoherent (aside from the final answer)"
+    ],
+    "How do we care for distribution shift in data or reward, since we have a KL in loss function? is beta sufficient ?": [],
+    "Removed a \ud83d\udc4b reaction from \"RACKPack app! love\"": [],
+    "thanks a lot": [],
+    "are any prior knowledge of distribution help, what type synthetic data shld be generated": [
+        "Yes, it\u2019s common to generate problems using a seed of problems in the area you\u2019re targeting"
+    ],
+    "odds?": [],
+    "It appears that the scores may be somewhat subjective.": [],
+    "thanks!": [],
+    "But isn't is harder in maths to say how \"close\" you are to being correct? With maths it's either correct or not, there's no close?": [],
+    "what would be some of the real world use cases of GRPO? Could it be used in document processing?": [
+        "It\u2019s used to train lots of the cutting edge open source LLMs"
+    ],
+    "Thanks Luis and Jay": [],
+    "we could weigh the response type": [],
+    "weigh them": [],
+    "it is too stochastic ...": [],
+    "love it": [],
+    "are you guys planning to take the learning beyond llms?": [],
+    "Could you share any tutorials related to the class or recommend relevant documentation?": [],
+    "Thank you": [],
+    "Model are stochastic that's why math is hard?": [],
+    "can we have multiple models in this setup": [],
+    "u mean change is mre smootjher in continous": [],
+    "Even to give a score, there should be some base \u201cknowledge\u201d ex: the model needs to  know that the step is  \u201cwrong\u201d. That\u2019s big part of my confusion": [],
+    "Its a greedy": [],
+    "RIght": [],
+    "Where does the normalized advantage come from in the previous diagram?": [],
+    "if that is the case even for language we could use grpo correct": [],
+    "HURRAY!": [],
+    "standardization": [],
+    "In order to score response - do we use LLM? If yes, than how LLM will learn new thing? If we use some tool \u2014it is too deterministic": [
+        "For code and math, scoring by deterministic format and accuracy results goes a long way in improving models. It is aided by reward models for non-math/code problems."
+    ],
+    "When generating different responses, followed by rewards for each step. When does the balance between exploration and exploitation come in picture? How many responses I keep generating ? And how many iteration I should try": [],
+    "normalization?": [],
+    "Deep diving into agents and how they handle context for long tasks would make one of the greatest courses!": [],
+    "1": [],
+    "same code objective can be written in multiple correct ways as well right like a algorithm like - find if string is palindrome.": [],
+    "Critic model has finite tasks then?": [],
+    "Something similar to getting trapped to a local minimum?": [],
+    "Are there model free reinforcement learning techniques ? where are they applicable?": [
+        "I tried looking into this. My understanding is that is a concept from other types of RL (like playing Atari games), and that all LLM RL algorithms are actually \"model free\".",
+        "Both PPO and GRPO are indeed \u201cmodel-free\u201d RL. They learn from interactions without building an internal model of environment dynamics.",
+        "Thanks!"
+    ],
+    "it was more if the base model was trained on shakespseare and you're expecting to solve 2x+4=10, but your answers addressed something else I had in mind": [],
+    "like code interpreter, calculator etc": [],
+    "Thank you!": [],
+    "Toronto": [],
+    "You need to account for how probable that outcome is": [],
+    "so the numerator is frozen and denominator model is the one that we are training?": [],
+    "multiply": [],
+    "yes, the smoothing part is like, kind of \"magic\"": [],
+    "reverse": [],
+    "Because they are merged into one": [],
+    "Not sure how to ask this, but it involves the context scope wrt answers given the question.<EOS>Do we have a way to penalize answers that are out of pocket, or are they treated the same as a wrong answer.": [
+        "Ideally the rewards and KL penalize these"
+    ],
+    "convergence?": [],
+    "Removed a \u2764\ufe0f reaction from \"Yes Jay = Keynote Pr...\"": [],
+    "math answers is deterministic": [],
+    "Its like almost everywhere in machine learning": [],
+    "Maybe just agents? yes, I was going to propose something on agents<EOS>I\u2019d love to learn to reproduce OpenClaw": [],
+    "Hi": [],
+    "because we don\u2019t know the score": [],
+    "don't they return logprobs?": [],
+    "can we have two models one llama and other mistrel": [],
+    "it's not deterministic": [],
+    "so even for this step - you will need tool calling ??": [
+        "In this case, those are part of the verification system rather than the model calling those tools directly"
+    ],
+    "GRPO optimizes a model using reward signals, distillation trains a smaller model to mimic a stronger one. Different mechanisms, same goal?": [
+        "Two different training mechanisms, correct."
+    ],
+    "is the problem we're prioritizing easy questions?": [],
+    "is this part of assignment": [],
+    "odds": [],
+    "RACKPack app! love": [],
+    "because it takes the average of all the answers": [],
+    "Similar to my thought about entropy and KL divergence, can I compare Clip to Learning Rate?": [],
+    "Negative": [],
+    "what happens if both models end up with the same reward": [],
+    "But haven\u2019t we already restricted the model by adding clip? why KL div then?": [
+        "We have. This is an additional restriction. Updates over multiple steps, even with clipping, can divert away from the reference model.",
+        "Ah makes sense, pretty interesting to get this intuition"
+    ],
+    "Brilliant, thank you!": [],
+    "As Josh said, we can assume we are going in the right direction": [],
+    "GRPO replace the Value model with the average value from sampling the policy model many times": [],
+    "Is there final work or something at the end of the course?": [
+        "There are assessments, and we\u2019ll announce them soon on email and on the community tab"
+    ],
+    "How can I apply it improve fields extraction from a form?": [
+        "The key to applying RL is being able to design a reward function. If there's a way you can evaluate the model's outputs, either using another LLM, or some kind of programmed heuristic, then you can use that to improve the model's performance toward that reward.",
+        "Any ideas what the reward model / function might be for the field extraction you have in mind?",
+        "Hmm, yeah, a key element of RL is generation. If the task doesn't involve generating responses that can be randomized through sampling, then it might not be the right fit?",
+        "We can have random response - as LLM pulls value of. A field lot of times from adjacent fields. This happens a lot if form is cluttered. @Chris McCormick"
+    ],
+    "So GRPO does not need the value model": [],
+    "So for training there would be a different summation outside to go over all the questions?": [
+        "Yeah, there are multiple layers. The equation on screen is focused on the collection of responses to a single question.<EOS>In practice, there's an additional averaging of the gradients over a batch of multiple prompts."
+    ],
+    "in practice, how has GRPO used in the real world?": [
+        "TO train lots of the best LLMs out there"
+    ],
+    "Hi all": [],
+    "wait, the GPRO is then used for both scenarios?": [],
+    "Welcome, everyone!": [],
+    "This is factually wrong Squidward is the critic lmao": [],
+    "its short term": [],
+    "Will there be a continuation of this course? \ud83d\ude42": [],
+    "by unsloth?": [],
+    "is the critic model \"rules-based\" in this case? is that what you mean by not having to train": [
+        "You could give an LLM a scoring rubric, and ask it to return the scores in some parseable way, like a json object.",
+        "For math and code they are (RLVR). For open text generations, it can be a reward model that scores it.",
+        "\"LLM-as-judge\"",
+        "how do you prevent hallucinations in that case?",
+        "@Pellet It's definitely an additional engineering challenge to leverage the judge's responses. The judge might violate the format, skip parts of the metric... You can try to be robust to those issues, or just give up on those samples. If you're using an API to access a frontier model as the judge, hopefully it's pretty good, though?"
+    ],
+    "F model (llm) can score than why train?": [],
+    "It's based on only one answare": [],
+    "prob of new/old weighed by advantage": [],
+    "GRPO evaluates  multiple answers/response as opposed to PPO (which evaluates only one response)": [],
+    "Removed a \u2764\ufe0f reaction from \"RACKPack app! love\"": [],
+    "Fantastic lecture.. thank you so much \ud83d\ude4f": [],
+    "LORA are adapter matrices": [],
+    "So, GRPO is to be used for math and PPO for text generation?": [],
+    "like gradient explotion or vanishing ?": [],
+    "is the reward calculation done during training when we know the right answers?": [],
+    "yes we do": [],
+    "Are we missing out on controls we can put in value models by opting for GRPO ? Like emotional weights towards making a decision ?": [],
+    "Removed a \ud83d\udc4d\ud83c\udffd reaction from \"and it is not associ...\"": [],
+    "I didn't realize norm is a normal distribution": [],
+    "OK, thanks!! Clear!": [],
+    "does it mean we cannot use GRPO for anything else other than something where rewards are verifiable?": [],
+    "I meant heterogenous model such as llama and Mistrel": [],
+    "Luis, is there any pdf that we can follow for Today's class?": [],
+    "Does that mean base model can be lora?": [],
+    "Because we don\u2019t have labeled data, we need to generate paths to get it": [],
+    "how to tune beta for KL": [
+        "Lots of alchemy and empirical knowhow"
+    ],
+    "Explanation is very understandable. Thank you!<EOS>What tool do you use to create your slides? \ud83d\ude42": [],
+    "or can either be used for both, with pros and cons?": [],
+    "when we say \"better model\", what exactly do we mean? such as OpenAI vs another? or two differently SAFTed mnodels?": [
+        "Relatively accurate  compared to previous state",
+        "so an iteration of a model being trtained?",
+        "\ud83d\ude42 normalization"
+    ],
+    "Too much weightage on rewards \u2014 forget original distribution": [],
+    "right": [],
+    "Lovely colour schemes too": [],
+    "to make it quicker?": [],
+    "but training like this to do calculation may have the model only predict the answer for calculation and not do the calculation correct?": [
+        "Sometimes it\u2019s a useful phase in the training for the model to output partially correct answers. For example a formatting reward guides it to write answers in the format:<EOS><think>reasoning tokens</think><EOS><answer>5</answer><EOS>And in the beginning of the RL training, the model learns the format, and with time it learns to reason and do the calculations better and more correctly. and finally output something like this in later checkpoints:<EOS><think>reasoning tokens</think><EOS><answer>4</answer>"
+    ],
+    "expected value": [],
+    "That\u2019s a neat trick, to be able to do GD..": [],
+    "Great!..<EOS>Thanks @Luis Serrano": [],
+    "because we freeze other models ndwe don't have valuemodels": [],
+    "We don\u2019t have value model in GRPO, we get the scores combined into policy": [],
+    "Each direction would represent a different model? How are the new models/directions chosen (random weight variation)?": [],
+    "Practically, we can get a really good math model that solves math by reasoning in gibberish. But the KL restriction forces it to reason in human-readable text (which scores high in the reference model)": [],
+    "The dimensionality of the model space is too high": [],
+    "whicvh event": [],
+    "righ": [],
+    "Thank you so much @Luis Serrano ! You made sure the lecture was engaging \ud83d\ude4c \ud83d\ude0d": [],
+    "is that what RLHF did?": [],
+    "for  a given text request multiple reponse is applicable unlikemath": [],
+    "no, other types of models": [],
+    "What would happen if we explore more by choosing the model which has high KL divergence instead of low KL divergence?": [],
+    "How should I determine the appropriate LoRa parameters?": [
+        "With experimentation, like a lot of ML questions",
+        "Thanks\ud83e\udd29"
+    ],
+    "what do you mean that is not associative?": [],
+    "The \u201ccandidate models\u201d is an abstraction for the answers generated by the current model + the temperature randomness that generated the answer. We can think of each of these answers as having been generated by a slightly different model.<EOS>Usually you\u2019d evaluate it against evals/benchmarks you care about.": [],
+    "It doesn't factor future paths?": [],
+    "interesting to know, what is the best approach to teach LLM to solve a complex math": [
+        "in case we have the stong open source model and it can solve math, but not very good with complex math, can LoRA help in this case, if we try to teach model for the better decomposition of the complex problem"
+    ],
+    "What would be the pre-req for labs?": []
+}
