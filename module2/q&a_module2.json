@@ -1,0 +1,213 @@
+{
+    "How do you train the Value Model ? What does the training data look like ?": [],
+    "Guys, how to train with RL on multi-turn dataset?": [
+        "The data should be multi-turn. And the rollouts have to be multi-turn (if we want to train agentic, multi-turn behaviors)",
+        ">And the rollouts have to be multi-turn<EOS>@Jay Alammar Could you clarify what does rollouts mean here?",
+        "A rollout in an LLM context means getting the model to generate an output. That output can be calling a tool, in that case we then invoke that tool and return the output to the model we are training, then allow the model to output another turn.. until it completes the task. That entire list of generations and tool calls is a rollout."
+    ],
+    "Does reward model always has to be the same SFT model with regression head?": [
+        "Doesn't have to be the same model."
+    ],
+    "how does the guessing of value happen?": [],
+    "https://www.ragpack.ai/courses/downloads/2163310135/intro_to_rl_and_rlhf_study_guide_v1-0-pdf": [],
+    "Instead of just picking the one best answer , could clustering help the model find multiple different ways to solve the same problem ?": [],
+    "what differentiates lucky and unlucky if the data is unlabeled? can you go over that example again?": [],
+    "so is tool-integrating just like using a calculator in the backend to verify the answer?": [
+        "a calculator is an example of a tool, correct."
+    ],
+    "it AI event happening yearly": [],
+    "are we running 4 models, and two of them needs gradient update? isnt it computationally expensive or ?": [
+        "with PPO there are too many models involved and it leads to lots of training and engineering complexity. Which is why simpler methods like GRPO and DPO became popular",
+        "Thank you Jay"
+    ],
+    "so reward and value gives a regression scalar or classify ouptut as integer from 1 to 10?": [
+        "It outputs a score, correct. The exact value is an experimental detail that differs between implementations"
+    ],
+    "is the world model being proposed by Yann LeCun just a vLLM or is it more?": [],
+    "with a prompt, how can it be known if it needs RLHF or RLVR?": [
+        "The rule of thumb is:<EOS>If it feels like grading an essay (reading and grading): RLHF<EOS>If it feels like grading a math test (checking if an answer matches a number, etc.): RLVR"
+    ],
+    "what exactly you feed back to the reference model in GRPO? isn't the reference one always frozen?": [
+        "Correct, the reference model is the model at the start of training, and never changes.<EOS>The entire generated sequence goes into the reference model to get its probability distributions for the tokens, and the KL divergence is based on that.",
+        "In addition to Chris's point, for training reasoning models like R1 where we want to train the model to get new behaviors like reasoning, we can train the model for a number of steps, and then after say, 50 steps, that new checkpoint becomes our new reference model for the following 50 steps. And we keep cycling them like this."
+    ],
+    "Discord treats every message with the same priority, so I'm glad we're not using it.": [],
+    "How does LLM figure out what should be the right tool call. Let's I may not have a tool that I may need at the inference time": [
+        "1- In the system prompt it is told which tools it has access to and what they do.<EOS>2- In post-training, it sees lots of different types of tools and how they're used. This helps it pick tools later on even if it hasn't seen them specifically before.",
+        "But what if the right tool isn't available",
+        "That often happens, and the model should be trained to say that it cannot handle the task."
+    ],
+    "Does GRPO only work for RLVR or we can also use it for RLHF?": [
+        "It's not commonly used for RLHF",
+        "Yes, GRPO is mostly based on responses being easily verifiable, e.g., a calculator verifying a calculation, or a compiler compiling code. In RLHF you need the response to be verifiable by a human or a neural network, as you're talking about rating text responses, not math ones."
+    ],
+    "5pm on a Saturday here.. and training a model for a uni assignment. This is a great addition to my day!": [],
+    "Is TTRL suitable for building Physical AI?": [],
+    "so we reward the model for listing ALL the tools together with the corrcet arguments?": [
+        "Yes, the model is rewarded when it calls the right tool, and also the right arguments (on a JSON structure for example)"
+    ],
+    "So GRPO is may or may not be \u201cverifiable\u201d, right? Lets say if an LLM verifies that is not verifiable, as there is no certainty like a python unit test": [
+        "The algorithm just needs a reward signal. We can use verifiable methods to do that, or other methods (like a reward model). GRPO would work as long as we provide it with reward scores and doesn't particularly care how we calculate it."
+    ],
+    "Would you recommend trying out fine tuning examples from https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide  or do you prefer using something else as a starting point for hands on explorations?": [],
+    "It appears that applying TTL to VLMs can be somewhat challenging. Is that a correct assessment?": [],
+    "Are the rollouts being used in PPO?": [
+        "Yes in all RL methods a rollout is needed because that's the model output that we judge and use to update the model"
+    ],
+    "Can format rewards later be used as special tokens for the model to write prompts? For example, if we use <think> in some parts of prompts for Qwen3, will it increase the model's capabilities, or will it not add anything?": [
+        "Depends on the shape of the training data. Adjacent to this is the idea of how much reasoning the model is expected to do. Some reasoning models include a parameter for \u201creasoning effort\u201d, and that can control how much reasoning the model spends on that prompt."
+    ],
+    "So we use RLHF for abstract concepts that only human could make distinctions of, and RLVR for things that are less abstract, like mathematical concepts?": [
+        "Yes absolutely, in general RLHF is for more conceptual answers (text) that need to be verified by a human or a neural network trained on human feedback.<EOS>And RLVR is for questions that have a concrete answer, like math or code, which don't need a human to be verified\u2026 it could be a calculator or a compiler."
+    ],
+    "It's the pre-trained model that you're starting from. So you could grab, e.g., Llama 3 and then run RL on it to adjust its behavior in some way.": [],
+    "How we could approach to multilingual model. Should be reward to get reward to use specific language": [],
+    "can pre-training step of llm, could be done using rl?": [
+        "Part of the magic of RL is that we are giving the model feedback on its existing behavior.<EOS>Without pre-training, there's no behavior to reinforce!"
+    ],
+    "can we add some kind of memory based rewards like using residuals which carry higher level information about what is correct or not ?": [],
+    "How on-policy distillation is different from the KL computation between the ref and the policy?": [
+        "Distillation is different, as it's used to train a model based on an already-trained model. KL divergence acts like a brake, to stop the model from changing too much from one iteration to another."
+    ],
+    "Not much changes for multilingual models as long as the data is also multilingual. We experiment in RL with a negative reward if the model does behaviors we want to discourage, like mixing languages needlessly. Or like reasoning in a different language from the one we instruct the model in.": [],
+    "but with TTRL it might be incrementing the mean noise of the data, isn't?": [],
+    "In the coding labs, can we do a very simple example of tool RL ?": [
+        "This project was the original inspiration for my lab:<EOS>https://github.com/Danau5tin/calculator_agent_rl<EOS>I decided to focus on debugging and optimizing GRPO training, but that project is a pretty easy-to-follow example of RL for tool use."
+    ],
+    "Could you think about some notes from comments q and a as text form. A lot of value is here": [],
+    "Can you highlight best questions because it was hard to read chat and listen to Maarten simultaneously ?": [],
+    "Does it only work for scalar reward only?": [
+        "The tendency is to use scalar values in practice"
+    ],
+    "What is the best way to learn reasoning in LLM's ? What resources would you recommend ?": [
+        "Depends on what you want to know about them. We have a full chapter on reasoning in the Illustrated Guide to AI Agents book",
+        "I like the answer for different roles you need different level of reasoning knowledge. This can be a great blog post !!"
+    ],
+    "How long will the recordings be available after the course is completed": [],
+    "So all the reasoning is done with RL? I got lost there": [
+        "The reasoning is done by the LLM that we're fine-tuning. We're using RL to get it to reason better, by correcting and scoring its responses.",
+        "R1 was cool because it learned reasoning essentially with RL only, back when we didn't have good reasoning data. (Only OpenAI had it, proprietary).<EOS>Now we have good reasoning datasets, so you can use those more efficiently to establish some reasoning behavior."
+    ],
+    "marten stressed there was a difference between the correct tool and the tool formatting, what is that difference?": [],
+    "In a lot of these examples, we run inference multiple times. Completely separate and in parallel.": [],
+    "What is value model initialized with?": [],
+    "What are the possible recommendation for overfitting problem cause by fine tuned LMs, to make reward ? What are range of solution in this case?": [
+        "more data, more diverse data, lower learning rate"
+    ],
+    "Do you have some opinion about the research done of using the same prompt twice was giving similar results of the reasoning models?": [],
+    "Group computation is similar to list-wise ranking?": [
+        "Not an ordered list. The scores of the group are normalized to improve the learning signal."
+    ],
+    "how is that different from knowing the correct tool?": [],
+    "Can we used verifiable reward like ground truth in addition to computing KLDivergence?": [],
+    "Just realized it is called GRPO because it groups all the rewards. Amazing slide @Maarten Grootendorst . It never came to me before.": [],
+    "@Josh Starmer, could you share the pdf guide for this channel??": [],
+    "How do techniques like Automatic Prompt Optimization (e.g., GEPA) compare with various RL techniques in improving the model ?": [],
+    "We can learn model to keep instructions, system prompt or context like history. I really struggle with this on small models": [],
+    "I've got model (SLM) learning (trained) in only English language? I can post-training in other new languages ex.  Hungarian.  What's better GRPO or DPO? How do you prevent multilingual fine-tuning from harming English performance (or the base model's strongest language)?<EOS>How do you choose language mixing ratios\u2014by token share, sample share, or curriculum?": [
+        "It would be difficult to get good multilingual performance from a model that is not pre-trained on multilingual data. Pre-training is where the model gets most of its capabilities, post-training tends to mainly polish and bring these capabilities to the top"
+    ],
+    "Any math driven resources on these paradigms to recommend?": [],
+    "Not likely to produce the best results. Although there's often lots of interweaving of training phases. but the SFT step makes the model outputs stable enough for RL to operate on.": [],
+    "can we do reward fine tuning first and then preference fine tuning?": [],
+    "How to get job into the frontier labs finetuning models?": [],
+    "Could you please share the most relevant papers corresponding to each technique referenced in the applications section?": [
+        "Absolutely:<EOS>PPO Paper: https://arxiv.org/abs/1707.06347<EOS>GRPO Paper: https://arxiv.org/abs/2402.03300",
+        "Thank you @Luis Serrano"
+    ],
+    "Reward model in PPO vs GRPO?": [],
+    "I hope you come to LEAP 2026": [],
+    "How do you implement majority voting  for continuous motor actions (e.g., precise joint angles) where exact matches between samples are rare?": [],
+    "What dataset size is recommended when training or fine-tuning a model using preference learning or reward modeling?": [
+        "Depends on many factors. DeepSeek R1 needed about a million training examples in SFT",
+        "Thank you. With only 1,000 images available, these methodologies would likely not be applicable for fine-tuning a VLM. Is that correct?",
+        "You can use a model that's finetuned on similar tasks, then finally training on your targetted 1000 (and with a higher learning rate)",
+        "Great, thank you very much for your support!",
+        "@Jay Alammar, for example could I work with QWEN3.5B??",
+        "Great!.. Thanks!"
+    ],
+    "Are any blogs like visual transformer coming on these concepts? It seems we need visual guide to training all these \ude04": [],
+    "so the rewards get aggregated, and then for each reward, calculate the difference to get the advantage?": [],
+    "State? Like Markov Chains?": [],
+    "is prompt engineering synonymous with any of these fine tuning steps?": [
+        "Not synonymous. But is involved in shaping the training data of all the steps after pre-training (and a small part of pre-training data)"
+    ],
+    "isn't tool integrated reasoning same as ReAct framework?": [
+        "It builds on top of it. Yet requires a reasoning section (with specific tokens) at the start of the output. And the training data contains long, long training traces to guide the model towards useful reasoning behaviors (including double checking its work, branching and examining different possibilities\u2026etc)"
+    ],
+    "So the tool rewards only check if we're calling the name and parameters? There's no feedback for tool itself and correct answer, or would that cause expensive latency?": [
+        "Other rewards (like output correctness) can provide the training signal for calling the right tools to solve more and more difficult problems. But earlier in the training pipeline, the model has to learn the tool calling formats and parameter syntax.",
+        "I'm asking since Maarten stressed they weren't the same"
+    ],
+    "Toolrl: https://arxiv.org/pdf/2504.13958": [],
+    "the advantage going up implies the policy gets updated, otherwise the disadvantage updates the value model?": [],
+    "I dont understand one thing. LLM generates one token at a time and the reward is for whole sequence, how do we assign the overall reward for each token generation?": [
+        "Great question! Each token in the response gets the same reward.<EOS>Sometimes you can grade each step at a time separately, and then each token in the step gets the same reward.",
+        "Different RL algorithms try to answer this differently. As Luis mentions, you still get performance improvement from assigning all the tokens in a specific sequence the same reward based on the full answer after the sequence generation is completed.",
+        "So how gradient descent will work for the whole sequences?",
+        "Gradient descent in pre-training/SFT treats each output token as its own training step, and adjusts the weights based on each token.",
+        "@Jay Alammar in this case the later token may change the weight the models wrongly (since the model already updated for the previous tokens)?"
+    ],
+    "Is there any paper on TTRL?": [
+        "https://arxiv.org/abs/2504.16084"
+    ],
+    "Is there a pdf of the presentation for the class of Today?  It would be nice to have it, as it is easier to follow and take notes :)": [
+        "That's a great idea Katherine! We'll share notes and the video later today, but right now there are no pdfs\u2026 sorry \ude41",
+        "second this thought",
+        "Thank you Luis! It would be nice for the next courses to have it in advance, so it would be easier to follow and take notes :)"
+    ],
+    "Is the reward model more of LLM as Judge concept": [
+        "Very similar, yeah, yet somewhat distinct as concepts. The reward model don't have to be generative"
+    ],
+    "@Fabian Sarmiento Awesome!": [
+        "I'm interested in purchasing An Illustrated Agent's Guide, but it does not appear to be available on Amazon at the moment.",
+        "It not out on print yet, should be out perhaps around September. But about 6 early release chapters are on the Oreilly platform",
+        "Great!.. I'm looking for them in Oreally...",
+        "Thank @Vinod Anbalagan for the information!...",
+        "Awesome!"
+    ],
+    "So in GRPO we don't need humans to rate the preference pair of answers?": [
+        "It's not a requirement. We can calculate the reward in different ways. Using humans within the training loop would be slow and expensive.",
+        "It may not be human but still we need some sort of preference labelled in GRPO, right? @Jay Alammar",
+        "We need a reward score. That reward score could be derived from a preference judgement."
+    ],
+    "It would be good to provide some papers covering this topic in the portal": [],
+    "what differentiates lucky and unlucky if the data is unlabeled?": [],
+    "Isn't  ttrl through majority vote reinforcing the existing bias that exists in the pre-trained model?": [],
+    "How are various reasoning techniques like Chain of Thought, Self Reflection, etc are used in Reasoning Based RL ? Are all strategies used or only some of them ?": [],
+    "any thought s on sarcasm reasoning ?": [],
+    "sorry, what is distill and instill?": [
+        "Distill is when you take a trained model, and with the outputs it gives, you train another model. It's like using the model as a \u2018tutor' for the new model.",
+        "Thank you Luis, and instill?",
+        "Instill is when you optimize a model directly against a reward, so the model is not mimicking a teacher's outputs, it's using the teacher model to grade its answers and improve.",
+        "Thank you!",
+        "So basically:<EOS>Distill: When you listen to the teacher and learn.<EOS>Instill: When the teacher corrects you and then you learn.",
+        "@Luis Serrano Do you have a relevant paper(s) to this instill thing?",
+        "There's this one for example https://arxiv.org/html/2509.00309v1"
+    ],
+    "Is RL same as self-supervised learning?": [
+        "Not exactly, they are different training concepts."
+    ],
+    "Why do these models generate multiple completions  - this is not what they do in normal inference. is there a system prompt that tells them to generate say 10 completions?": [
+        "Generation involves sampling--we don't predict the most likely token, but sample from the most likely ones. Every run of the model can produce a different response."
+    ],
+    "a dev question, have anyone done DPO in Qwne3 VL using trl ? The DPOTrainer from trl have strict rules to process data which leaves input data such as image_thw for models like Qwen3. Any suggestion would be great.": [
+        "Would be great to post this in the community to get more visibility in case anyone there has dealt with this specifically",
+        "good idea.",
+        "Interesting question!.. I'm interested in this topic!"
+    ],
+    "Can GRPO use Verifiable Rewards ? Or it has to use a model ?": [
+        "Either one works"
+    ],
+    "How is the reference model created in the first place?": [
+        "But is it the necessary that the pre-trained model is also FT on specific task?"
+    ],
+    "Sure. Use the best recent model": [],
+    "I still don't understand what is the goal of TTRL?": [],
+    "when does the reference model get used again/updated?": [],
+    "KL-div is ensuring similarity between what distributions exactly?": [
+        "Predicted tokens",
+        "Got it,  between Ref model and Reward model",
+        "Yes, from the original trained model, and the fine-tuned one.. The idea is to improve the original model, but not get too far from it (as we kind of trust it, and going too far may ruin the model)"
+    ]
+}
