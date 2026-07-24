@@ -1,18 +1,12 @@
 """
 Reads the chat logs, removes the reactions, collects the questions and groups their responses.
+
+TODO: Fix the ellipses bug for inline comments
 """
-
 import argparse
-import re
 import json
-
-# parser = argparse.ArgumentParser(description="zoom logs Q&A parser")
-# parser.add_argument("--file", type=str, required=True, help="ZOOM log to parse")
-# parser.add_argument("--out-file", type=str, required=False, help="Filename to save")
-# args = parser.parse_args()
-
-# fname = args.file
-fname = "chat.txt"
+import pathlib
+import re
 
 def parse_reference(string):
     """
@@ -58,6 +52,16 @@ def extract_responses(list_lines, token_eos):
     
     return list_out
 
+parser = argparse.ArgumentParser(description="zoom logs Q&A parser")
+parser.add_argument("--file", type=str, required=True, help="ZOOM log to parse")
+parser.add_argument("--out-file", type=str, required=False, help="Filename to save")
+args = parser.parse_args()
+
+fname = args.file
+
+# fail fast
+if not pathlib.Path(fname).resolve().exists:
+    raise FileNotFoundError(fname)
 
 list_reactions = ["Reacted to", "Se ha reaccionado a"]
 token_eos = "<EOS>"
@@ -103,6 +107,9 @@ for question in set_questions:
         # list_question_unanswered.append(question)
         dict_questions[question] = []
 
-with open("chat_dump.json", "w") as file_out:
+fname_out = args.out_file
+if fname_out is None:
+    fname_out = "chat_dump.json"
+with open(fname_out, "w") as file_out:
     json.dump(dict_questions, file_out, indent=4)
 # print(list_question_unanswered)
