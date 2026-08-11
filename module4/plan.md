@@ -25,7 +25,7 @@ Select a lightweight instruction-tuned model combined with Parameter-Efficient
 Fine-Tuning (PEFT) to keep memory footprint minimal during backpropagation.
 
 Model Candidates:
-  - Qwen/Qwen2.5-0.5B-Instruct
+  - Qwen/Qwen2.5-0.5B-Instruct (about 1 GB)
   - SmolLM2-135M-Instruct
   - Llama-3.2-1B-Instruct
 
