@@ -1,0 +1,197 @@
+{
+    "where is the format penalized?": [],
+    "as I said, agents, and be able to replicate openClaw.<EOS>Understanding MPC servers": [],
+    "How many attempts are there for assesements?": [
+        "Unlimited :)",
+        "As many as you need to get the answers correct.",
+        "when is the deadline to get the certificate?",
+        "The material will be up for about 6 months. We\u2019ll super warn you before it\u2019s out, so you can get your certificate"
+    ],
+    "another amazing session": [],
+    "Deepseek oct": [],
+    "which book is this for those of us who joined late?": [
+        "https://learning.oreilly.com/library/view/an-illustrated-guide/9798341662681/"
+    ],
+    "Sorry, totally forgot to mention this:<EOS>To pass each quiz, you need to get all 5 answers correctly.<EOS>But you can take it infinitely many times, so you can gradient-ascent your way to a perfect score. :)": [
+        "hopefully we won't fall into a local optima"
+    ],
+    "Next Neurips": [],
+    "Removed a \ud83d\udc4d reaction from \"Sorry, totally forgo...\"": [],
+    "BAAAAM": [],
+    "Thank you guys!...<EOS>Great lectures!": [],
+    "So if i have some sort of summary to do but which needs a bit of reasoning also then this creates a difficulty. Because the next token models might not be good enough for problem solving while the open-source reasoning ones maybe not enough writing polish": [],
+    "@Jay Alammar could you share the link of the slides?": [
+        "Yes, the supplementary info, code, etc., will appear in the platform here, with the video https://www.ragpack.ai/products/reinforcement-learning-for-llms/categories/2159599396/posts/2195594946"
+    ],
+    "Could you try a curriculum approach, where we start training with an easier critic, say just checking the maths, and then later on in fine tuning make the actor tougher on the formatting?": [
+        "I think the formatting is actually the easier of the two.<EOS>Curriculum learning is interesting, but something to keep in mind is that we're more like cleaning up the model's existing outputs (reinforcing the good ones and shutting down the bad ones), and we may not be giving it enough data to learn capabilities that it doesn't already have.",
+        "Great idea! Yes, definitely this can be done. It can be from tuning hyper parameters differently as there are more training epochs (or as performance increases), weighting different aspects different, more correctness for the first epochs, and a combination of correctness and style for later epochs, and then full GRPO with step-by-step verification for the final epochs.",
+        "Haha, yup, the final answer is always just \"try it!\""
+    ],
+    "i will need six months for sure \ud83d\ude02": [],
+    "Eyes": [],
+    "do the lightweight models also have RL stages within the distillation training?": [],
+    "Hello everyone<EOS>I have a question regarding the reward function is it a thing to use any evaluation metrics designed to evaluate certain task  for example summarization or any as the reward to be maximized ?": [],
+    "@Luis Serrano https://www.amazon.in/Quantum-Computing-Computer-Scientists-Yanofsky/dp/0521879965        great resource I follow": [],
+    "ok, thanks": [],
+    "What percentage (roughly) of AI use cases do you think really requires agentic approach in comparison to workflows where we control how/when to use LLMs?": [
+        "We're actually seeing more and more use cases where the Agentic controls the flow compared to you. It's hard to say where it's going, but to me it seems that the Agentic approach is going to be key. There will still be many situations that require a human in the loop. Despite the great coding capabilities of cloud models, you still need to guide it often to get it to production-grade code. Same applies to cases where privacy/security is important.",
+        "What made me question this is this paper -> https://arxiv.org/abs/2602.20021?utm_source=substack&utm_medium=email  (Agent of Chaos)."
+    ],
+    "so the model is fixed in thinking machine": [],
+    "I think RL gives the model the ability to make smart decision (next token) even on the data that it hasn\u2019t been trained on whereas SFT focuses on improving the model on a particular domain that it has been trained for. I don\u2019t know if this makes sense\ud83d\ude05": [
+        "Yes, that is correct."
+    ],
+    "No, PPO is on policy you don\u2019t see the same data twice": [],
+    "Recently played around with Qwen-3.5-9B and noticed it often goes off on tangents or gets lost in its own reasoning, especially on more complex tasks. What is the intuition behind this behavior?": [],
+    "is it doing some sort of contrastive learning": [],
+    "FSDP (\"Fully Sharded Data Parallel\") is a strategy for distributing work across multiple GPUs, whereas vLLM is an engine specifically for efficient text generation from a model (it doesn't do training).": [],
+    "Hi @Jay Alammar,<EOS>I\u2019m very interested in acquiring the AI Agents Illustred Guide book. Do you have an estimated timeline for when it will be released???": [],
+    "what does it mean to synthesize data?": [
+        "Just using an LLM to create text to train on, possibly combined with heuristics.<EOS>For my arithmetic example, we \"synthesize the dataset\" by defining templates and then filling them in with random integers."
+    ],
+    "Does it talks about Agents orchestration? Agents communication?": [],
+    "Is there any group discussions related to RL where we can ask our doubts in future?": [
+        "+1",
+        "You'll continue to have access to the community for the next six months, and we've been discussing whether / how to create something more permanent.",
+        "@Chris McCormick why not a discord channel?",
+        "Yeah, that's where I've been leaning--RAG Pack discord with an \"Alumni\" channel for y'all :)",
+        "Thank you \ud83d\ude04"
+    ],
+    "correct, it also gives you a data flywheel-strategic edge": [],
+    "but if we are too strict on the format then are we not in a way reward hacking/overfitting situation": [
+        "Yeah, if the problems are too hard, and you're only looking at the total reward, you could miss the fact that the model is only learning to format properly and not actually improve accuracy."
+    ],
+    "How to make a model use the \"Skill\" which claude uses these days": [
+        "You actually don't need RL for that. You can get away with prompting for that and simply stating \"I have these 3 skills\" which you can access by doing X, Y, Z."
+    ],
+    "Removed a \ud83d\udc4d reaction from \"Does it talks about ...\"": [],
+    "In this case, are you only evaluate the formmat?": [
+        "Yes, Based on Regex ####."
+    ],
+    "Is the code going to be on the ragpack website?": [
+        "Yes! It\u2019ll be in the platform under Module 5"
+    ],
+    "Is it necessary to use Agentic Reinforcement Learning? If so, what type of agentic approach would be most appropriate?": [],
+    "Units?": [],
+    "Thank you Jay - amazing lecture": [],
+    "Is there a way we could get rid of the RL portion ? maybe with more synthetic data?": [
+        "That\u2019s the philosophical question, it could be that with LOTS of data, we could bypass RL, or it could be that there\u2019s a \u2018reasoning skill\u2019 that one can only develop by reward training, and not just by imitation learning."
+    ],
+    "we could use vision tranformerisntit": [],
+    "and do you have plans to have this course as book :)": [],
+    "wonderful": [],
+    "Thanks @Jay Alammar": [],
+    "If we have to create a LLM that supports a specific use case such as follow a lead acquisition process, do we start with a dataset that can be used to train the LLM? is having that dataset that represents the \"correct\" way to follow the process the most important thing?": [],
+    "Afternoon": [],
+    "I am getting lost with the discord channel": [
+        "Yeah, discord is just a possible idea for the future. Right now, the community's where it's at!<EOS>https://www.ragpack.ai/products/communities/v2/rlforllms/channel/9d85c78b-14e5-4aaf-b924-38f7dae26b80?type=forum"
+    ],
+    "agents": [],
+    "what\u2019s the difference between FDSP and vLLM?<EOS>and why do we use one or the other?": [],
+    "what are the definitions of reasoning RL, Agentic RL and General RL?": [],
+    "Right now we are tracking metrics like entropy, rewards, loss etc. Can we also track the advantage score? Like when std of advantage is very close to zero we can stop the training (early stopping)?": [
+        "The advantages are the normalized rewards, so if you take the mean of the advantages it will always be zero.",
+        "I meant tracking standard deviation",
+        "?",
+        "Std of the advantages will always be 1, or 0 if all of the rewards in the group are identical.<EOS>I think the early stopping idea makes sense, though! Eventually you'd expect to see the mean/std reward to either max out or plateau.",
+        "That makes sense. Thank you!"
+    ],
+    "#### missing?": [],
+    "I have used quite a few open-weights reasoning models eg qwen, glm, kimi k2.5, minimax etc for summarisation tasks. I find that they do ramble quite a bit and eg qwen 3.5 397b generates a long thinking trace compared to gpt-5. So are these models really trained for tool calling and code generation rather than summarisation, Q&A etc?": [
+        "They are trained for both but the focus these days tend to be more on tool calling and code generation. The \"mix\" of tasks is shifted towards those tasks. That said, sometimes summarization / Q&A is done more in SFT and tool calling / code generation in RL.",
+        "Not necessarily, that's why we mix tasks and allow the model train in parallel on multiple different things. As a result, these models learn to generalize across different tasks."
+    ],
+    "Can you exactly define the rollouts? is it the number of generations? or the number of steps/turns?": [
+        "Yup, \"rollout\" is a word for referring to the model's responses to your prompt.<EOS>GRPO generates a group of rollouts to learn from."
+    ],
+    "thank you jay great session": [],
+    "an experiment, on multimodal sarcasm identification and explanation the DPO did not do well than SFT. The data were GPT annotated. SFT->DPO with same dataset.": [],
+    "It's over? encore!": [],
+    "ocr": [],
+    "Can we beat frontier models in coding agents if we train for example in large codebases with rl? In which cases this makes for companies sense in which domains, to make it better than frontier models? Or is this also dependent on agent harness?": [],
+    "good presentation": [],
+    "awesome and makes sense": [],
+    "do we have exercise in them": [],
+    "because since RL is so expensive, it will be ideal to get rid of it": [],
+    "Is it possible to change the evaluation during training? For example, it can be easier at the start and change to a harder task at the end?": [
+        "Yes, one can focus on correctness at the beginning, and then in style, and finally in step-by-step coherence (or different ways)."
+    ],
+    "Such a Great Lecture!": [],
+    "what's the 4k, 32k and 128k?": [
+        "Looks like sequence length!",
+        "Smaller at the start, since long sequences are expeeensive."
+    ],
+    "How to create synthetic data is there any framework also for the verifiers?": [],
+    "Maybe Im confused haha.<EOS>But wasn\u2019t using RL in the first place motivated by missing labeled data?<EOS>If we do have existing sets of question-answer pairs, why can\u2019t we simply backprop-train the model without fancy RL (PPO, GRPO)?": [
+        "Up",
+        "we want the answer in a specific format.",
+        "It does help for missing data, but ultimately, the results of learning by imitation are not that great. The model may have lots of Q/A pairs, but it only learns to \u2018sound correct\u2019. RL is used to really push the model into actually \u2018being correct\u2019.",
+        "Great question, I would love to hear answers from the tutors.<EOS>Here\u2019s my view point - what you are talking about is SFT or transfer learning - which could lead to catastrophic forgetting (unlearning what it has learnt during pre-training phase).",
+        "Thx @Luis Serrano! Sounds interesting. Any details/background on why RL avoids \u201eimitation\u201c, when compared to e.g. SFT?"
+    ],
+    "what are logits?": [],
+    "Joined a lil late but a big fan gf Jay\u2019s work. What\u2019s the book title tho": [
+        "AI Agents Illustred Guide"
+    ],
+    "GSM8K is much more advanced than just basic arithmetic.<EOS>I was thinking of a different dataset. I guess it is just a bunch of word problems, interesting.": [],
+    "Great talk. Thank you, Jay. Do we use the finetuned model for preference data generation? for example. tuned qwen for data generation, reference model, and policy model (training); same model replica? How does it learn on its own data and training? i suspect less variance or low learning signals.": [],
+    "ok lets say I have questions that are philosophical that requires reasoning here formatting is not vital but self reflection is . How do we tackle such scenario ?": [
+        "Create a self-reflection token ;) It is a bit of an unique use case but it is something that can be done. Self-reflection though is typically something that gets \"executed\" every couple of turns in an Agentic loop by simply asking the model to reflect on its own behavior."
+    ],
+    "would you use another LLM (LLM as a judge) as a reward model?": [
+        "As a toy example of the more expensive approach:<EOS>https://colab.research.google.com/drive/1Eoari-GfUcXAa8Vl5_Mwov-8AvI2CAH2#scrollTo=d1107f6a<EOS>That gives ChatGPT a rubric to score responses with."
+    ],
+    "Congrats!": [],
+    "https://github.com/verl-project/verl": [],
+    "I have used quite a few open-weights reasoning models eg qwen, glm, kimi k2.5, minimax etc for summarisation tasks. I find that they do ramble quite a bit and eg qwen 3.5 397b generates a long thinking trace compared to gpt-5.  So are these models really trained for tool calling and code generation rather than summarisation, Q&A etc?": [],
+    "One of the greatest courses ever, thank you all! It would be great to have another course focusing more on the technical details, such as running agents for long tasks while managing context windows and memory.": [],
+    "are you planning a next course and what is it going to be on?": [],
+    "And what about the repository of the book??": [],
+    "What use cases, in your experience, justify fine-tuning a model in a way that remains sustainable for at least the next 1-2 years, so the effort doesn\u2019t need to be scrapped or redone when the next SOTA frontier model comes out? Are these typically niche or expert domains or other?": [],
+    "What book? Is it the Reasoning Models one?": [],
+    "Synthesizing from bigger models sounds great, for creating highly efficient small models.<EOS>But what if you\u2019re training new frontier models? Where are the question-answer sets generated from? From smaller models?": [],
+    "By when do we need to complete the assessments in order to get the credential?": [],
+    "Thank you for organising this course.": [],
+    "wow": [],
+    "Image is in what format?": [
+        "It can be image, pdf. Both formats are available"
+    ],
+    "Removed a \u2764\ufe0f reaction from \"@Jay Alammar could y...\"": [],
+    "Great lecture!": [],
+    "is it fair to say that instruction tuning improves certain capabilities of the base model and the RL improves even some of those capabilities?": [],
+    "just was enjoying it so much \ud83d\ude02": [],
+    "I'd like knowing your opinion about Small Language Models...": [],
+    "reasoning RL -> focuses on single-turn<EOS>Agentic RL -> makes it great at multi-turn/steps!!": [],
+    "Woo @Daniel Bryars.. You lab looks wonderful!": [],
+    "Thank you! enjoy the rest of your week.": [],
+    "That\u2019s so true. Tools are easy to grab if you understand the concepts": [],
+    "there is no epochs in PPO": [],
+    "Removed a \ud83d\udc4d reaction from \"Looks like sequence ...\"": [],
+    "Can you explain the inner workings and different approaches to distillation, including using open-source models vs. closed-source (API) models as parent models?": [
+        "What's great about using open-source models is that you can use the token distributions for distillation, which is not the case with closed-source models."
+    ],
+    "How can I get my book autographed?": [],
+    "Do you guys conduct live sessions if any new interesting papers gets released to discuss about it?": [],
+    "There is a lot of frameworks out there openenv https://github.com/meta-pytorch/OpenEnv  hugging face trl , art pipe https://art.openpipe.ai/getting-started/about  how to choose the right tooling?": [],
+    "If your question didn\u2019t get answered, please feel free to ask it again, it may be lost in the thread \ud83d\ude42": [],
+    "Removed a \u2795 reaction from \"agents\"": [],
+    "why cant we connect this to tool why force reasoning for calculation": [
+        "https://huggingface.co/datasets/openai/gsm8k/viewer/main/train?p=74"
+    ],
+    "BAM!!!": [],
+    "and which framework for agents is used in the book?Langchain,Auitogen,CrewAI?": [],
+    "Perhaps a course on evaluating agentic systems?": [
+        "or even building them"
+    ],
+    "Is there any tutorial that explains how to properly formulate questions and answers for Vision\u2013Language Models (VLMs)?": [],
+    "could you please share the links to the papers you mentioned": [],
+    "Something wasn\u2019t entirely clear to me\u2014what is the main idea behind Agentic Reinforcement Learning?": [],
+    "?": [],
+    "There is chapter about multi agent systems": [],
+    "Added this notebook to my module to step through the loss calculation. This cell in particular is pretty cool, it shows the per-token loss for an example response.<EOS>https://colab.research.google.com/drive/1Eoari-GfUcXAa8Vl5_Mwov-8AvI2CAH2#scrollTo=SRt8le2jrhv1": [],
+    "so compact as well": [],
+    "How good is the Nemotron's model in agentic? (if you have tested it on that) @Maarten Grootendorst": [
+        "I'm still downloading it \ud83d\ude05 That said, the performance they shared seems to be quite close to GPT-OSS 120B which is amazing considering they are using a hybrid architecture based on Mamba."
+    ]
+}
